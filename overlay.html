@@ -43,6 +43,12 @@
             font-weight: bold;
             color: white;
         }
+        .title {
+            color: #ffcc00; /* Warna mencolok */
+            font-size: 1.5rem;
+            display: block;
+            animation: blink 1.5s infinite; /* Efek kelap-kelip */
+        }
         .progress-bar {
             width: 90%;
             height: 10px;
@@ -63,11 +69,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .link .title {
-            color: white;
-            font-size: 1.5rem;
-            display: block;
         }
         .donor-list {
             height: 350px;
@@ -116,12 +117,10 @@
         #currentTime {
             color: white;
         }
-        @keyframes glow {
+        @keyframes blink {
             0% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        .glow {
-            animation: glow 1.5s infinite alternate ease-in-out;
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
@@ -135,14 +134,14 @@
             </div>
         </div>
         <div class="box donor-list" id="donorList">
-            <div>Siapa sih donatur stream ini?</div>
+            <div>- Siapa sih donatur stream ini ? -</div>
         </div>
         <div class="timer-container">
             <div style="display: flex; align-items: center; gap: 5px;">
                 <div class="time-label">JAM:</div>
                 <div class="time-frame" id="currentTime">00:00:00</div>
             </div>
-            <div class="donation-message glow">Thank you for your donation 💖</div>
+            <div class="donation-message">Thank you for your donation 💖</div>
             <div style="display: flex; align-items: center; gap: 5px;">
                 <div class="subhanton-text">SUBHANTON</div>
                 <div class="subhanton-frame"></div>
