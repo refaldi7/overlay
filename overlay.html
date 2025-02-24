@@ -3,62 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overlay OBS Biru</title>
+    <title>Overlay TikTok</title>
     <style>
         body {
             margin: 0;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0);
             font-family: monospace;
             color: white;
-            overflow: hidden;
+            pointer-events: none;
         }
         .overlay {
-            width: 1080px;
-            height: 435px;
-            padding: 20px;
-            border-radius: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+            height: 640px;
+            padding: 10px;
+            border-radius: 20px 20px 0 0;
             border: 3px solid rgba(255, 255, 255, 0.5);
-            background: rgba(0, 102, 255, 0.8);
+            background: rgba(254, 44, 85, 0.8);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 20px;
+            z-index: 9999;
         }
         .box {
-            width: 95%;
-            padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            width: 90%;
+            padding: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 12px;
             text-align: center;
             background: transparent;
-            font-size: 1.2rem;
             font-weight: bold;
             color: white;
         }
+        .link {
+            animation: glow 1.5s infinite alternate ease-in-out;
+            position: relative;
+        }
+        .progress-bar {
+            width: 90%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #ffcc00;
+            transition: width 1s ease-in-out;
+            text-align: center;
+            line-height: 10px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .link .title {
+            color: white;
+            font-size: 1.5rem;
+            display: block;
+        }
+        .link .subtitle {
+            color: white;
+            font-size: 1.2rem;
+            display: block;
+        }
         .leaderboard {
             height: 350px;
-            width: 95%;
+            width: 90%;
             text-align: center;
             font-size: 1.5rem;
             font-weight: bold;
-            padding: 15px;
+            padding: 10px;
         }
         .timer-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 95%;
-            padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            width: 90%;
+            padding: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 12px;
             background: transparent;
             position: relative;
+        }
+        .donation-message {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
         }
         .time-label, .subhanton-text {
             font-size: 1.2rem;
@@ -67,7 +111,7 @@
         .time-frame, .subhanton-frame {
             width: 100px;
             height: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.5);
             border-radius: 8px;
             display: flex;
             justify-content: center;
@@ -76,47 +120,23 @@
             font-weight: bold;
             color: white;
         }
-        .center-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffcc00;
-            animation: glow-yellow 2s infinite alternate ease-in-out;
-            text-align: center;
+        #currentTime {
+            color: white;
         }
-        .donation-progress {
-            width: 90%;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-        .donation-fill {
-            height: 100%;
-            width: 0%; /* Progress awal */
-            background: linear-gradient(90deg, #ffcc00, #ff9900);
-            transition: width 0.5s ease-in-out;
-            animation: shimmer 2s infinite linear;
-        }
-        @keyframes glow-yellow {
+        @keyframes glow {
             0% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-        @keyframes shimmer {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.8; }
+            100% { opacity: 0.7; }
         }
     </style>
 </head>
 <body>
     <div class="overlay">
-        <div class="box">🎯 Target Donasi: Rp500.000 <br> <span style="font-size: 1rem; color: white; font-weight: normal;">20% donasi untuk turnamen berhadiah cash.</span></div>
-        <div class="donation-progress">
-            <div class="donation-fill" id="donationBar"></div>
+        <div class="box link">
+            <span class="title">Road to Ramadhan 2025</span>
+            <span class="subtitle">🔗 Donation link is in bio</span>
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressBar">0%</div>
+            </div>
         </div>
         <div class="box leaderboard">🏆 Leaderboard</div>
         <div class="timer-container">
@@ -124,10 +144,7 @@
                 <div class="time-label">JAM:</div>
                 <div class="time-frame" id="currentTime">00:00:00</div>
             </div>
-            <div class="center-text">
-                <span style="display: block; font-weight: bold; color: white;">💰 Donasi di:</span>
-                <a href="https://saweria.co/dzulqar" target="_blank" style="color: #ffcc00; text-decoration: none; font-weight: bold;">🔗 saweria.co/dzulqar</a>
-            </div>
+            <div class="donation-message">Thank you for your donation 💖</div>
             <div style="display: flex; align-items: center; gap: 5px;">
                 <div class="subhanton-text">SUBHANTON</div>
                 <div class="subhanton-frame"></div>
@@ -143,13 +160,18 @@
             document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds}`;
         }
         setInterval(updateCurrentTime, 1000);
-
-        function updateDonationProgress(currentAmount) {
-            let targetAmount = 10000;
-            let percentage = (currentAmount / targetAmount) * 100;
-            document.getElementById("donationBar").style.width = percentage + "%";
+        
+        function updateProgressBar(value) {
+            let progressBar = document.getElementById("progressBar");
+            progressBar.style.width = value + "%";
+            progressBar.textContent = value + "%";
         }
-        updateDonationProgress(1500); 
+        
+        let progress = 0;
+        setInterval(() => {
+            progress = (progress + 5) % 101;
+            updateProgressBar(progress);
+        }, 3000);
     </script>
 </body>
 </html>
