@@ -52,7 +52,7 @@
             height: 10px;
             background: rgba(255, 255, 255, 0.3);
             border-radius: 5px;
-            margin-top: 20px;
+            margin: 20px auto; /* Menambahkan auto untuk margin horizontal agar seimbang */
             overflow: hidden;
             position: relative;
         }
@@ -61,11 +61,12 @@
             width: 0%;
             background: #ffcc00;
             transition: width 1s ease-in-out;
-            text-align: center;
-            line-height: 10px;
             color: white;
             font-size: 0.8rem;
             font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .link .title {
             color: white;
@@ -152,6 +153,19 @@
         </div>
     </div>
     <script>
+        const ramadhanDate = new Date('2025-03-11'); // Tanggal Ramadhan
+        const startDate = new Date('2025-02-24'); // Tanggal mulai
+        const today = new Date(); // Tanggal hari ini
+
+        function calculateProgress() {
+            const totalDays = Math.ceil((ramadhanDate - startDate) / (1000 * 60 * 60 * 24)); // Hitung total hari menuju Ramadhan
+            const daysPassed = Math.ceil((today - startDate) / (1000 * 60 * 60 * 24)); // Hitung hari yang sudah berlalu
+
+            // Hitung persentase
+            const progress = Math.min((daysPassed / totalDays) * 100, 100); // Pastikan tidak lebih dari 100%
+            updateProgressBar(progress);
+        }
+
         function updateCurrentTime() {
             let now = new Date();
             let hours = String(now.getHours()).padStart(2, "0");
@@ -159,19 +173,15 @@
             let seconds = String(now.getSeconds()).padStart(2, "0");
             document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds}`;
         }
-        setInterval(updateCurrentTime, 1000);
-        
+
         function updateProgressBar(value) {
             let progressBar = document.getElementById("progressBar");
             progressBar.style.width = value + "%";
-            progressBar.textContent = value + "%";
+            progressBar.textContent = Math.round(value) + "%"; // Menampilkan nilai persentase yang dibulatkan
         }
         
-        let progress = 0;
-        setInterval(() => {
-            progress = (progress + 5) % 101;
-            updateProgressBar(progress);
-        }, 3000);
+        setInterval(updateCurrentTime, 1000);
+        calculateProgress(); // Hitung progress saat pertama kali dimuat
     </script>
 </body>
 </html>
