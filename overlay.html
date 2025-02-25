@@ -78,7 +78,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             padding: 10px;
-            gap: 10px;
+            gap: 12px;
         }
         .donor-column {
             width: 48%;
@@ -167,19 +167,20 @@
     <script>
         function updateTime() {
             const now = new Date();
-            document.getElementById('currentTime').innerText = now.toLocaleTimeString().replace(/ AM| PM/, "");
+            document.getElementById('currentTime').innerText = now.toLocaleTimeString('id-ID');
         }
         setInterval(updateTime, 1000);
         updateTime();
-        
+
         function updateProgressBar() {
             const startDate = new Date('2025-01-01');
-            const ramadhanDate = new Date('2025-03-01'); 
+            const ramadhanDate = new Date('2025-03-01');
             const today = new Date();
             const progress = Math.min(100, ((today - startDate) / (ramadhanDate - startDate)) * 100);
             document.getElementById('progressBar').style.width = progress + '%';
             document.getElementById('progressBar').innerText = Math.round(progress) + '%';
         }
+        setInterval(updateProgressBar, 1000);
         updateProgressBar();
     </script>
 </body>
