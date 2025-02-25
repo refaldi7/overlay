@@ -44,10 +44,10 @@
             color: white;
         }
         .title {
-            color: #ffcc00; /* Warna mencolok */
+            color: #ffcc00;
             font-size: 1.5rem;
             display: block;
-            animation: blink 1.5s infinite; /* Efek kelap-kelip */
+            animation: blink 1.5s infinite;
         }
         .progress-bar {
             width: 90%;
@@ -71,13 +71,29 @@
             align-items: center;
         }
         .donor-list {
-            height: 350px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 90%;
-            text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             padding: 10px;
-            overflow-y: auto;
+        }
+        .donor-column {
+            width: 45%;
+            text-align: center;
+        }
+        .donor-frame {
+            width: 100%;
+            height: 240px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .vs-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
         }
         .timer-container {
             display: flex;
@@ -114,9 +130,6 @@
             font-weight: bold;
             color: white;
         }
-        #currentTime {
-            color: white;
-        }
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -133,8 +146,10 @@
                 <div class="progress-bar-fill" id="progressBar">0%</div>
             </div>
         </div>
-        <div class="box donor-list" id="donorList">
-            <div>- Siapa sih donatur stream ini ? -</div>
+        <div class="donor-list">
+            <div class="donor-column"><span style="font-size: 1rem;">👑 King Saweria</span><div class="donor-frame"></div></div>
+            <div class="vs-text">VS</div>
+            <div class="donor-column"><span style="font-size: 1rem;">👑 King TikTok Coins</span><div class="donor-frame"></div></div>
         </div>
         <div class="timer-container">
             <div style="display: flex; align-items: center; gap: 5px;">
@@ -143,39 +158,28 @@
             </div>
             <div class="donation-message">Thank you for your donation 💖</div>
             <div style="display: flex; align-items: center; gap: 5px;">
-                <div class="subhanton-text">SUBHANTON</div>
+                <div class="subhanton-text">SUBHANTON:</div>
                 <div class="subhanton-frame"></div>
             </div>
         </div>
     </div>
     <script>
-        const ramadhanDate = new Date('2025-03-11');
-        const startDate = new Date('2025-02-24');
-        const today = new Date();
-
-        function calculateProgress() {
-            const totalDays = Math.ceil((ramadhanDate - startDate) / (1000 * 60 * 60 * 24));
-            const daysPassed = Math.ceil((today - startDate) / (1000 * 60 * 60 * 24));
-            const progress = Math.min((daysPassed / totalDays) * 100, 100);
-            updateProgressBar(progress);
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').innerText = now.toLocaleTimeString().replace(/ AM| PM/, "");
         }
-
-        function updateCurrentTime() {
-            let now = new Date();
-            let hours = String(now.getHours()).padStart(2, "0");
-            let minutes = String(now.getMinutes()).padStart(2, "0");
-            let seconds = String(now.getSeconds()).padStart(2, "0");
-            document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds}`;
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        function updateProgressBar() {
+            const startDate = new Date('2025-01-01');
+            const ramadhanDate = new Date('2025-03-01'); 
+            const today = new Date();
+            const progress = Math.min(100, ((today - startDate) / (ramadhanDate - startDate)) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').innerText = Math.round(progress) + '%';
         }
-
-        function updateProgressBar(value) {
-            let progressBar = document.getElementById("progressBar");
-            progressBar.style.width = value + "%";
-            progressBar.textContent = Math.round(value) + "%";
-        }
-
-        setInterval(updateCurrentTime, 1000);
-        calculateProgress();
+        updateProgressBar();
     </script>
 </body>
 </html>
